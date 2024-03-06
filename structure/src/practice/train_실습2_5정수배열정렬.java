@@ -44,7 +44,7 @@ public class train_실습2_5정수배열정렬 {
 	static void sortData(int []arr) {//swap함수를 사용한다.두개의 데이터를 맞바꾸는것을 의미함
 		for(int i=0; i<arr.length;i++) {
 			for(int j=i+1; j<arr.length;j++) {
-				if(arr[i]>arr[j])
+				if(arr[i]>arr[j]) 
 					swap(arr,i,j);
 			}
 		}
