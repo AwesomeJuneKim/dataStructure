@@ -36,13 +36,26 @@ public class train_실습3_4정수배열이진탐색 {
 		/*
 		 * 교재 115 Arrays.binarySearch에 의한 검색
 		 */
+		Arrays.binarySearch(null, 0)
 		resultIndex = Arrays.binarySearch(data, key);
 		System.out.println("\nArrays.binarySearch(10): result = " + resultIndex);
 
 	}
+	static void sortData(int[]data) {
+		for(int i=0;i<data.length;i++) {
+			for(int j=i+1;j<data.length;j++) {
+				if(data[i]>data[j]) {
+					int t= data[i];
+					data[i]=data[j];
+					data[j]=t;
+				}
+			}
+		}
+	}
 
 
 	static int linearSearch(int[]item, int key) {
+		//교재 p109
 
 	}
 

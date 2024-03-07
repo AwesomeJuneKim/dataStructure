@@ -6,6 +6,9 @@ import java.util.List;
 public class train_스트링리스트정렬 {
 
 	    public static String[] removeElement1(String[] arr, String item) {
+	    	List<String> list=new ArrayList<>(Arrays.asList(arr));
+	    		list.remove(item);
+	    	return list.toArray(String[]::new);
 
 	    }
 	    
@@ -22,16 +25,27 @@ public class train_스트링리스트정렬 {
 			list.add(1, "LA");
 	    }
 	    static void showList(String topic, List<String> list) {
+	    	System.out.println(topic+" ::");
+	    	for(String item:list) {
+	    		System.out.println(item+" ");
+	    	}
 
 	    }
 	    static void sortList(List<String> list) {
+	    	//방법1. list.sort(null);-> Collections.sort(list)를 사용해도 됨
+	    	//방법2. 리스트를 스트링 배열로 반환
+	    	list.sort(null);
+	    	String[] arr=list.toArray(new String[0]);
+	    	
+	    	
 
 	    }
 	    
 	    static String[] removeDuplicateList(List<String> list) {
 		    String cities[] = new String[0];
-		    cities = list.toArray(cities);
-		    
+		    cities = list.toArray(cities);//배열로 바꿔 줌
+		    //for문으로 중복도시를 체크 함 compareTo를 사용해서 같으면 removeElement(arr, item)를 호출하여 삭제함
+		    for(int i=0;i<)
 		    return cities;
 	    }
 		public static void main(String[] args) {
@@ -51,7 +65,7 @@ public class train_스트링리스트정렬 {
 		    System.out.println("중복제거::");
 		  
 		    String[] cities = removeDuplicateList(list);
-	        ArrayList<String> lst = new ArrayList<>(Arrays.asList(cities));
+	        ArrayList<String> lst = new ArrayList<>(Arrays.asList(cities));//배열을 리스트로 바꿔 줌
 		    showList("중복제거후", lst);
 		}
 	}

@@ -28,8 +28,24 @@ class PhyscData2 implements Comparable<PhyscData2>{
 	}
 }
 public class train_실습3_6_1객체배열이진탐색 {
+	static void swap(PhyscData2[] arr, int ind1, int ind2) {
+		PhyscData2 t = arr[ind1];
+		arr[ind1] = arr[ind2];
+		arr[ind2] = t;
 
+	}
 
+	static void sortData(PhyscData2[]arr) {
+		//Arrays.binarySearch(null, 0, 0, null, null) 사용해서 솔트메서드 생성가능
+		for(int i=0;i<arr.length;i++) {
+			for(int j=i+1;j<arr.length;j++) {
+				if(arr[i].compareTo(arr[j])>0) {
+					swap(arr,i,j);
+					
+				}
+			}
+		}
+	}
 	public static void main(String[] args) {
 		PhyscData2[] data = {
 				new PhyscData2("홍길동", 162, 0.3),

@@ -10,11 +10,22 @@ class PhyscData3 {
 	double vision;
 
 }
-class HeightOrderComparator2 implements Comparator<PhyscData3>{
+class Comp implements Comparator<PhyscData3>{
+
+	@Override
+	public int compare(PhyscData3 p1, PhyscData3 p2) {
+		if(p1.name.compareTo(p2.name)>0)
+			return 1;
+		else if(p1.name.compareTo(p2.name)<0)
+			return -1;
+		else
+			return 0;
+	}
+	
 
 }
 public class train실습3_8객체비교연산자 {	
-	static final Comparator<PhyscData3> HEIGHT_ORDER = new HeightOrderComparator2();
+	static final Comparator<PhyscData3> HEIGHT_ORDER = new Comp();
 
 	public static void main(String[] args) {
 		PhyscData3[] data = {
@@ -26,6 +37,7 @@ public class train실습3_8객체비교연산자 {
 				new PhyscData3("길동", 167, 0.2),
 				new PhyscData3("길동", 167, 0.5),
 		};
+		Arrays.binarySearch(data, key, HEIGHT_ORDER);//HEIGHT_ORDER대신 new Comp()를 써도 같은 결과
 		showData("정렬전 객체 배열", data);
 		Arrays.sort(data, HEIGHT_ORDER);
 		
