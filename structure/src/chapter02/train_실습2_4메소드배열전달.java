@@ -1,4 +1,4 @@
-package practice;
+package chapter02;
 
 //메소드에 배열 전달 실습부터
 //실습 설명한다 

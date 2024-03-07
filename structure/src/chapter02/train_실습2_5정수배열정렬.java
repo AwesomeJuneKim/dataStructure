@@ -1,4 +1,4 @@
-package practice;
+package chapter02;
 
 import java.util.Arrays;
 //교재 67 - 실습 2-5

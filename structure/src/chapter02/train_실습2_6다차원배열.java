@@ -1,4 +1,4 @@
-package practice;
+package chapter02;
 
 /*
  * 3번째 실습

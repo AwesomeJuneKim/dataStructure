@@ -1,7 +1,5 @@
 package assignments;
 
-import java.util.Arrays;
-
 //5번 실습 - 2장 실습 2-14를 수정하여 객체 배열의 정렬 구현
 class PhyscData implements Comparable<PhyscData> {
 	String name;
@@ -68,11 +66,17 @@ public class Test_실습2_14객체배열정렬 {
 		sortData(data);
 		// Arrays.sort(null, null);//comparator가 필요하다
 		showData(data);
+		data.toString();
+		
 	}
 
 	static void showData(PhyscData[] arr) {
 		for (PhyscData i : arr) {
 			System.out.println(i + " ");
+		}
+		for(PhyscData i:arr) {
+			for(int j=i+1; j<arr.length;j++)
+			
 		}
 
 	}
