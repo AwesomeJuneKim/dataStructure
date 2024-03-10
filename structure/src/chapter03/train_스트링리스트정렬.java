@@ -27,7 +27,7 @@ public class train_스트링리스트정렬 {
 	    static void showList(String topic, List<String> list) {
 	    	System.out.println(topic+" ::");
 	    	for(String item:list) {
-	    		System.out.println(item+" ");
+	    		System.out.print(item+" ");
 	    	}
 
 	    }
@@ -40,13 +40,21 @@ public class train_스트링리스트정렬 {
 	    	
 
 	    }
-	    
+	    //!!!!!!!!!!!!! 확인!!!!!!!!!!!!!!!
 	    static String[] removeDuplicateList(List<String> list) {
 		    String cities[] = new String[0];
-		    cities = list.toArray(cities);//배열로 바꿔 줌
-		    //for문으로 중복도시를 체크 함 compareTo를 사용해서 같으면 removeElement(arr, item)를 호출하여 삭제함
-		    for(int i=0;i<)
+		    cities = list.toArray(cities);
+		    //배열로 바꿔 줌
+		    for(int i=0;i<cities.length;i++) {
+		    	for(int j=i+1; j<cities.length;j++) {
+		    		//if(cities[i].equals(cities[j])) {
+		    			train_스트링리스트정렬.removeElement1(cities, cities[j]);
+		    		//}
+		    	}
+		    }
 		    return cities;
+		    //for문으로 중복도시를 체크 함 compareTo를 사용해서 같으면 removeElement(arr, item)를 호출하여 삭제함
+		    //for(int i=0;i<)
 	    }
 		public static void main(String[] args) {
 			ArrayList<String> list = new ArrayList<>();
