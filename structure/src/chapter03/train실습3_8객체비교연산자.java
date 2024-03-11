@@ -14,6 +14,11 @@ class PhyscData3 {
 		this.height = height;
 		this.vision = vision;
 	}
+	@Override
+	public String toString() {
+		return "Name: " + name + ", Height: " + height + ", Vision: " + vision;
+	}
+
 }
 
 class Comp implements Comparator<PhyscData3> {
@@ -27,7 +32,7 @@ class Comp implements Comparator<PhyscData3> {
 		else
 			return 0;
 	}
-
+	
 }
 
 public class train실습3_8객체비교연산자 {
@@ -37,12 +42,12 @@ public class train실습3_8객체비교연산자 {
 		PhyscData3[] data = { new PhyscData3("홍길동", 162, 0.3), new PhyscData3("홍동", 164, 1.3),
 				new PhyscData3("홍길", 152, 0.7), new PhyscData3("김홍길동", 172, 0.3), new PhyscData3("길동", 182, 0.6),
 				new PhyscData3("길동", 167, 0.2), new PhyscData3("길동", 167, 0.5), };
+		PhyscData3 key = new PhyscData3("길동", 167, 0.2);
 		Arrays.binarySearch(data, key, HEIGHT_ORDER);// HEIGHT_ORDER대신 new Comp()를 써도 같은 결과
 		showData("정렬전 객체 배열", data);
 		Arrays.sort(data, HEIGHT_ORDER);
 
 		showData("정렬후 객체 배열", data);
-		PhyscData3 key = new PhyscData3("길동", 167, 0.2);
 
 		int idx = Arrays.binarySearch(data, key, HEIGHT_ORDER);
 		System.out.println("\nArrays.binarySearch(): result = " + idx);

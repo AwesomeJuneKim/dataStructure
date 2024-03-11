@@ -100,7 +100,7 @@ public class train_실습3_6_1객체배열이진탐색 {
 
 	static int binarySearch(PhyscData2[] data, PhyscData2 key) {
 		int left=0;
-		int right=data.length;
+		int right=data.length-1;
 		while(left<=right) {
 			int mid=(left+right)/2;
 			int result= data[mid].compareTo(key);

@@ -12,7 +12,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 public class Test_중복없는리스트합병 {
@@ -21,25 +20,45 @@ public class Test_중복없는리스트합병 {
 //file1: 서울,북경,상해,서울,도쿄, 뉴욕,부산
 //file2: 런던, 로마,방콕, 도쿄,서울,부산
 //file > string split() > 배열 > ArrayList > sort > iterator 사용하여 merge > 중복 제거 > string 배열 > file에 저장
+	public static String[] removeElement(String[] arr, String item) {
+		List<String> list = new ArrayList<>(Arrays.asList(arr));
+		list.remove(item);
+		return list.toArray(String[]::new);
+	}
 
 	static ArrayList<String> removeDuplicate(ArrayList<String> al) {
-		//구현할 부분 : 리스트에서 중복을 제거한다, 정렬후 호출하는 것을 전제로 구현
+		// 구현할 부분 : 리스트에서 중복을 제거한다, 정렬후 호출하는 것을 전제로 구현
+		String list1[] = new String[al.size()];
+		list1 = al.toArray(list1);
+		for (int i = 0; i < list1.length; i++) {
+			int j = i + 1;
+			while (j < list1.length) {
+				if (list1[i].equals(list1[j])) {
+					list1 = removeElement(list1, list1[j]);
+				} else {
+					j++;
+				}
 
+			}
+		}
+		list1= Arrays.asList(list1);
 
 		return list1;
 	}
-	
-	static void trimSpace(String[]arr) {
-		
+
+	static void trimSpace(String[] arr) {
+		// 빈칸제거 for루프 arr[i].trim();사용함
 	}
-	static void makeList(String[] sarray1, List<String>list1) {
-		
+
+	static void makeList(String[] sarray1, List<String> list1) {
+
 	}
-	
+
 	static List<String> mergeList(List<String> list1, List<String> list2) {
 		ArrayList<String> list3 = new ArrayList<>();
-		
+
 	}
+
 	public static void main(String[] args) {
 		try {
 			Path input1 = Paths.get("a1.txt");
@@ -47,13 +66,13 @@ public class Test_중복없는리스트합병 {
 
 			Path input2 = Paths.get("a2.txt");
 			byte[] bytes2 = Files.readAllBytes(input2);
-			
+
 			String s1 = new String(bytes1);
 			String s2 = new String(bytes2);
 			System.out.println("입력 스트링: s1 = " + s1);
 			System.out.println("입력 스트링: s2 = " + s2);
 			String[] sarray1 = s1.split("[,\\s]+\r\n");// 자바 regex \n으로 검색
-			String[] sarray2 = s2.split("[,\\s]+\r\n");//file에서 enter키는 \r\n으로 해야 분리됨
+			String[] sarray2 = s2.split("[,\\s]+\r\n");// file에서 enter키는 \r\n으로 해야 분리됨
 			showData("스트링 배열 sarray1", sarray1);
 			showData("스트링 배열 sarray2", sarray2);
 
@@ -72,27 +91,26 @@ public class Test_중복없는리스트합병 {
 			// 방법2
 			ArrayList<String> list2 = new ArrayList<>(Arrays.asList(sarray2));
 			showList("리스트2: ", list2);
-			
+
 			System.out.println("+++++++ collection.sort()::");
 			Collections.sort(list1);
 			showList("정렬후 리스트1: ", list1);
 
-			//Arrays.sort(list2, null);//에러 발생 확인하고 이유는?
+			// Arrays.sort(list2, null);//에러 발생 확인하고 이유는?
 			Collections.sort(list2);
-			showList("정렬후 리스트2: ", list2);	
-	
-			//정렬된 list에서 중복 제거 코드
+			showList("정렬후 리스트2: ", list2);
+
+			// 정렬된 list에서 중복 제거 코드
 			list1 = removeDuplicate(list1);
 			list2 = removeDuplicate(list2);
-			showList("중복 제거후 리스트1: ", list1);	
-			showList("중복 제거후 리스트1: ", list1);	
-	
-	
+			showList("중복 제거후 리스트1: ", list1);
+			showList("중복 제거후 리스트1: ", list1);
+
 			List<String> list3 = new ArrayList<>();
-			
+
 			// 방법3:
 			list3 = mergeList(list1, list2);
-			showList("merge후 합병리스트: ", list3);	
+			showList("merge후 합병리스트: ", list3);
 
 			// ArrayList를 배열로 전환
 			String[] st = list3.toArray(new String[list3.size()]);
@@ -101,10 +119,10 @@ public class Test_중복없는리스트합병 {
 			// 정렬된 list3을 file에 출력하는 코드 완성
 			System.out.println("\n" + "file에 출력:");
 			int bufferSize = 10240;
-			
+
 			ByteBuffer buffer = ByteBuffer.allocate(bufferSize);
 			writeFile(list3, buffer);
-			
+
 			FileOutputStream file = new FileOutputStream("c.txt");
 			FileChannel channel = file.getChannel();
 			channel.write(buffer);
@@ -113,6 +131,17 @@ public class Test_중복없는리스트합병 {
 			e.printStackTrace();
 		}
 	}
+
+	static void showList(String string, ArrayList<String> list1) {
+		// TODO Auto-generated method stub
+
+	}
+
+	static void showData(String string, String[] sarray1) {
+		// TODO Auto-generated method stub
+
+	}
+
 	static void writeFile(List<String> list3, ByteBuffer buffer) {
 		String b = " ";
 		for (String sx : list3) {

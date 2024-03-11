@@ -44,10 +44,14 @@ public class train_스트링리스트정렬 {
 		    cities = list.toArray(cities);
 		    //배열로 바꿔 줌
 		    for(int i=0;i<cities.length;i++) {
-		    	for(int j=i+1; j<cities.length;j++) {
-		    		//if(cities[i].equals(cities[j])) {
-		    			train_스트링리스트정렬.removeElement1(cities, cities[j]);
-		    		//}
+		    	int j=i+1;
+		    	while(j<cities.length) {
+		    	//for(int j=i+1; j<cities.length;j++) {
+		    		if(cities[i].equals(cities[j])) {
+		    			cities=removeElement1(cities, cities[j]);
+		    		}else {
+		    			j++;
+		    		}
 		    	}
 		    }
 		    return cities;

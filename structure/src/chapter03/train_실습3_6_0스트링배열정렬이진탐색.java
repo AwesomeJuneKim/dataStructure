@@ -30,6 +30,7 @@ public class train_실습3_6_0스트링배열정렬이진탐색 {
 
 		key = "배";
 		//!!!!!!!!!!!왜 -1이 반환되지 않는거지???????????????
+		//->linearSearch의 while이 닫히지 않아서 무한루프 돌고 있었음
 		/*
 		 * 교재 109~113
 		 */
@@ -47,11 +48,12 @@ public class train_실습3_6_0스트링배열정렬이진탐색 {
 	
 	static int linearSearch(String[] data, String key) {
 		int i=0;
-		while(i<data.length)
+		while(i<data.length) {
 			if(data[i].equals(key)) {
 				return i;
 			}
 			i++;
+			}
 		return -1;
 	}
 	
