@@ -14,16 +14,32 @@ class PhyscData2 implements Comparable<PhyscData2>{
 	String name;
 	int height;
 	double vision;
+	
+	public PhyscData2(String name, int height, double vision) {
+		this.name=name;
+		this.height=height;
+		this.vision=vision;
+	}
 
 	@Override
 	public String toString() {
-		
+		return "[" + name + "\t" + height + "\t" + vision + "]";
 	}
 	@Override
 	public int compareTo(PhyscData2 p) {
+		if(this.name.compareTo(p.name)>0) {
+			return 1;
+		}else if(this.name.compareTo(p.name)<0)
+			return -1;
+		else
+			return 0;
 		
 	}
 	public int equals(PhyscData2 p) {
+		if(this.name.equals(p.name))
+			return 1;
+		else
+			return 0;
 		
 	}
 }
@@ -81,6 +97,47 @@ public class train_실습3_6_1객체배열이진탐색 {
 		resultIndex = Arrays.binarySearch(data, key);//comparable를 사용
 		System.out.println("\nArrays.binarySearch(<이동,167,0.6>): result = " + resultIndex);
 	}
+
+	static int binarySearch(PhyscData2[] data, PhyscData2 key) {
+		int left=0;
+		int right=data.length;
+		while(left<=right) {
+			int mid=(left+right)/2;
+			int result= data[mid].compareTo(key);
+			if(result==0) {
+				return mid;				
+			}if(result<0) {
+				left=mid+1;
+			}else
+				right=mid-1;
+		}
+		return -1;
+	}
+
+	static int linearSearch(PhyscData2[] data, PhyscData2 key) {
+		int i=0;
+		while(i<data.length) {
+			int result=data[i].compareTo(key);
+			if(result==0)
+				return i;
+			else
+				i++;
+		}
+		return -1;
+	}
+
+	static void reverse(PhyscData2[] data) {
+		for(int i=0; i<data.length/2; i++)
+			swap(data,i,data.length-i-1);
+	}
+
+	static void showData(String string, PhyscData2[] data) {
+		System.out.println(string);
+		for(int i=0; i<data.length;i++)
+			System.out.println(data[i]+" ");
+		
+	}
+	
 	
 	
 

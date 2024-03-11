@@ -1,13 +1,6 @@
 package chapter03;
 
-//3장 - 1번 실습 과제 > 2번 실습: 스트링 객체의 정렬과 이진 탐색 > 3번 실습: 객체 정렬과 이진 탐색
-//comparator 구현 실습
-/*
-* 함수(메소드)에 parameter 전달 방식을 표현하는 능력의 숙달 훈련
-* 함수(메소드) 전체를 작성하는 훈련 
-*/
 import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 public class train_실습3_4정수배열이진탐색 {
 
@@ -36,11 +29,26 @@ public class train_실습3_4정수배열이진탐색 {
 		/*
 		 * 교재 115 Arrays.binarySearch에 의한 검색
 		 */
-		Arrays.binarySearch(null, 0)
+		
+		//!!!!!!!!아래꺼 주석처리하면 안되나요????????
+//		Arrays.binarySearch(null, 0)
 		resultIndex = Arrays.binarySearch(data, key);
 		System.out.println("\nArrays.binarySearch(10): result = " + resultIndex);
 
 	}
+	static void inputData(int []data) {
+		Random rnd= new Random();
+		for(int i=0; i<data.length;i++)
+			data[i]=rnd.nextInt(100);
+	}
+	static void showList(String str,int []data) {
+		System.out.println(str);
+		for(int item: data) {
+			System.out.print(item+" ");
+		}
+		System.out.println();
+	}
+	
 	static void sortData(int[]data) {
 		for(int i=0;i<data.length;i++) {
 			for(int j=i+1;j<data.length;j++) {
@@ -56,12 +64,37 @@ public class train_실습3_4정수배열이진탐색 {
 
 	static int linearSearch(int[]item, int key) {
 		//교재 p109
+		int i=0;
+		while(i<item.length) {
+			if(item[i]==key)
+				return i;
+			i++;
+		}
+		return -1;
 
 	}
 
 	static int binarySearch(int[]item, int key) {
 		int pl = 0;
 		int pr = item.length-1;
+		while(pl<=pr) {
+			int mid=(pl+pr)/2;
+			if(item[mid]==key) {
+				return mid;// 찾았을때 값 반환 
+			}if(item[mid]<key){
+				pl=mid+1;
+			}else {
+				pr=mid-1;
+			}
+		}return -1;//찾지 못했을 때 
 
 	}
 }
+
+
+
+
+
+
+
+
