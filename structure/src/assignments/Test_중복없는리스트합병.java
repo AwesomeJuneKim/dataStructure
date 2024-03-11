@@ -28,34 +28,49 @@ public class Test_중복없는리스트합병 {
 
 	static ArrayList<String> removeDuplicate(ArrayList<String> al) {
 		// 구현할 부분 : 리스트에서 중복을 제거한다, 정렬후 호출하는 것을 전제로 구현
-		String list1[] = new String[al.size()];
-		list1 = al.toArray(list1);
-		for (int i = 0; i < list1.length; i++) {
+		ArrayList<String> list1=new ArrayList<>(al);
+		//String list1[] = new String[al.size()];
+		for (int i = 0; i < list1.size(); i++) {
 			int j = i + 1;
-			while (j < list1.length) {
-				if (list1[i].equals(list1[j])) {
-					list1 = removeElement(list1, list1[j]);
+			while (j < list1.size()) {
+				if (list1.get(i).equals(list1.get(i))) {
+					list1.remove(j);
 				} else {
 					j++;
 				}
 
 			}
 		}
-		list1= Arrays.asList(list1);
 
 		return list1;
 	}
 
 	static void trimSpace(String[] arr) {
 		// 빈칸제거 for루프 arr[i].trim();사용함
+		for(int i=0;i<arr.length;i++) {
+			if(arr[i]==" ") {
+				arr[i].trim();
+			}
+		}
 	}
 
 	static void makeList(String[] sarray1, List<String> list1) {
+		//list1에 sarray1을 추가하는 코드 만들기
+		for(String item:sarray1) {
+			list1.add(item);
+		}
 
 	}
 
 	static List<String> mergeList(List<String> list1, List<String> list2) {
 		ArrayList<String> list3 = new ArrayList<>();
+		for(String item:list1) {
+			list3.add(item);
+		}
+		for(String item:list2) {
+			list3.add(item);
+		}
+		return list3;
 
 	}
 
@@ -134,11 +149,21 @@ public class Test_중복없는리스트합병 {
 
 	static void showList(String string, ArrayList<String> list1) {
 		// TODO Auto-generated method stub
+		System.out.println(string);
+		for(String item:list1) {
+			System.out.println(item+" ");
+		}
+		System.out.println();
 
 	}
 
 	static void showData(String string, String[] sarray1) {
 		// TODO Auto-generated method stub
+		System.out.println(string);
+		for(int i=0; i<sarray1.length;i++) {
+			System.out.println(sarray1[i]+" ");
+		}
+		System.out.println();
 
 	}
 
