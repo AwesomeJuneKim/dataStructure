@@ -36,8 +36,6 @@ public class train_스트링리스트정렬 {
 	    	//방법2. 리스트를 스트링 배열로 반환
 	    	list.sort(null);
 	    	String[] arr=list.toArray(new String[0]);
-	    	
-	    	
 
 	    }
 	    
