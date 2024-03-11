@@ -1,4 +1,4 @@
-package assignments;
+package doneAssign;
 
 public class Test_실습2_14스트링배열정렬 {
 

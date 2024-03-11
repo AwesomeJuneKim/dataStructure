@@ -1,4 +1,4 @@
-package assignments;
+package doneAssign;
 
 //5번 실습 - 2장 실습 2-14를 수정하여 객체 배열의 정렬 구현
 class PhyscData implements Comparable<PhyscData> {
