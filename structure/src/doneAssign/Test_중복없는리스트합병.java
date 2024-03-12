@@ -1,4 +1,4 @@
-package assignments;
+package doneAssign;
 
 //중복이 없는 리스트를 merge하는 버젼
 
@@ -20,12 +20,7 @@ public class Test_중복없는리스트합병 {
 //file1: 서울,북경,상해,서울,도쿄, 뉴욕,부산
 //file2: 런던, 로마,방콕, 도쿄,서울,부산
 //file > string split() > 배열 > ArrayList > sort > iterator 사용하여 merge > 중복 제거 > string 배열 > file에 저장
-	public static String[] removeElement(String[] arr, String item) {
-		List<String> list = new ArrayList<>(Arrays.asList(arr));
-		list.remove(item);
-		return list.toArray(String[]::new);
-	}
-
+	
 	static ArrayList<String> removeDuplicate(ArrayList<String> al) {
 		// 구현할 부분 : 리스트에서 중복을 제거한다, 정렬후 호출하는 것을 전제로 구현
 		ArrayList<String> list1=new ArrayList<>(al);
@@ -36,9 +31,9 @@ public class Test_중복없는리스트합병 {
 				if (list1.get(i).equals(list1.get(i))) {
 					list1.remove(j);
 				} else {
+				
 					j++;
 				}
-
 			}
 		}
 
@@ -147,14 +142,13 @@ public class Test_중복없는리스트합병 {
 		}
 	}
 
-	static void showList(String string, ArrayList<String> list1) {
+	static void showList(String string, List<String> list1) {
 		// TODO Auto-generated method stub
 		System.out.println(string);
 		for(String item:list1) {
 			System.out.println(item+" ");
 		}
 		System.out.println();
-
 	}
 
 	static void showData(String string, String[] sarray1) {
