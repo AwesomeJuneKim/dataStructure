@@ -24,23 +24,43 @@ public class Test_중복없는리스트합병 {
 
 	static ArrayList<String> removeDuplicate(ArrayList<String> al) {
 		//구현할 부분 : 리스트에서 중복을 제거한다, 정렬후 호출하는 것을 전제로 구현
-		ArrayList<String> list3=new ArrayList<>(al);
-		
-
-
+		ArrayList<String> list1=new ArrayList<>(al);
+		int i=0;
+		int j=0;
+		while(i<list1.size()) {
+			while(j<list1.size()){
+				if(list1.get(i).equals(list1.get(j))) {
+					list1.remove(j);
+				}else {
+					j++;
+				}
+			}
+		}
 		return list1;
 	}
 	
 	static void trimSpace(String[]arr) {
-		
+		int i=0;
+		while(i<arr.length) {
+			arr[i]=arr[i].trim();
+		}
+		i++;
 	}
 	static void makeList(String[] sarray1, List<String>list1) {
-		
+		for(String item:sarray1) {
+			list1.add(item);
+		}
 	}
 	
 	static List<String> mergeList(List<String> list1, List<String> list2) {
 		ArrayList<String> list3 = new ArrayList<>();
-		
+		for(String item:list1) {
+			list3.add(item);
+		}
+		for(String item:list2) {
+			list3.add(item);
+		}
+		return list3;
 	}
 	public static void main(String[] args) {
 		try {
