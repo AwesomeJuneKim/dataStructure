@@ -28,7 +28,7 @@ public class Test_중복없는리스트합병 {
 		for (int i = 0; i < list1.size(); i++) {
 			int j = i + 1;
 			while (j < list1.size()) {
-				if (list1.get(i).equals(list1.get(i))) {
+				if (list1.get(i).equals(list1.get(j))) {
 					list1.remove(j);
 				} else {
 				
@@ -42,10 +42,12 @@ public class Test_중복없는리스트합병 {
 
 	static void trimSpace(String[] arr) {
 		// 빈칸제거 for루프 arr[i].trim();사용함
-		for(int i=0;i<arr.length;i++) {
-			if(arr[i]==" ") {
-				arr[i].trim();
-			}
+		int i=0;
+		while(i<arr.length) {
+//			if(arr[i]!=null) {
+				arr[i]=arr[i].trim();
+//			}
+			i++;
 		}
 	}
 
