@@ -1,4 +1,4 @@
-package Chap4_스택과큐;
+package assignments;
 
 //4장 소스코드의 Point2 버젼을 학습한 후에 Queue 버젼을 구현한다.
 
