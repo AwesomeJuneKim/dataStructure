@@ -1,8 +1,10 @@
-package chapter04;
 
+package chapter04;
 //List를 사용한 선형 큐 구현  - 큐는 배열 사용한다 
 import java.util.Random;
 import java.util.Scanner;
+
+import Chap4_스택과큐.Queue4.EmptyQueueException;
 
 /*
 * Queue of ArrayList of Point
@@ -54,16 +56,10 @@ class objectQueue2 {
 	private int num; // 현재 데이터 개수
 
 //--- 실행시 예외: 큐가 비어있음 ---//
-	public class EmptyQueueException extends RuntimeException {
-		public EmptyQueueException() {
-		}
-	}
+
 
 //--- 실행시 예외: 큐가 가득 찼음 ---//
-	public class OverflowQueueException extends RuntimeException {
-		public OverflowQueueException() {
-		}
-	}
+
 
 //--- 생성자(constructor) ---//
 public objectQueue2(int maxlen) {
@@ -85,14 +81,16 @@ public objectQueue2(int maxlen) {
 
 	}
 
-//--- 큐를 비움 ---//
-	public void clear() {
-		num = front = rear = 0;
-	}
+//--- 큐를 비움 ---peek처럼 구현//
 
 //--- 큐에서 x를 검색하여 인덱스(찾지 못하면 –1)를 반환 ---//
 	public int indexOf(Point3 x) {
-
+		for (int i = 0; i < num; i++) {
+			int idx = (i + front) % capacity;
+			if (que[idx].equals(x)) // 검색 성공
+				return idx;
+		}
+		return -1; // 검색 실패
 	}
 
 //--- 큐의 크기를 반환 ---//
@@ -116,11 +114,9 @@ public objectQueue2(int maxlen) {
 	}
 
 //--- 큐 안의 모든 데이터를 프런트 → 리어 순으로 출력 ---//
-	public void dump() {
 
-	}
 }
-public class train_실습4_4객체선형큐_배열 {
+public class 실습4_4객체선형큐_배열 {
 	public static void main(String[] args) {
 		Scanner stdIn = new Scanner(System.in);
 		objectQueue2 oq = new objectQueue2(4); // 최대 64개를 인큐할 수 있는 큐
@@ -130,7 +126,7 @@ public class train_실습4_4객체선형큐_배열 {
 		while (true) {
 			System.out.println(" "); // 메뉴 구분을 위한 빈 행 추가
 			System.out.printf("현재 데이터 개수: %d / %d\n", oq.size(), oq.getCapacity());
-			System.out.print("(1)인큐　(2)디큐　(3)피크　(4)덤프　(0)종료: ");
+			System.out.print("(1)인큐　(2)디큐　(3)피크　(4)덤프　(5)clear  (0)종료: ");
 			int menu = stdIn.nextInt();
 			switch (menu) {
 			case 1: // 인큐
@@ -143,7 +139,7 @@ public class train_실습4_4객체선형큐_배열 {
 				try {
 					oq.enque(p);
 				} catch(objectQueue2.OverflowQueueException e) {
-					System.out.println("stack이 가득찼있습니다.");
+					System.out.println("queue이 가득찼있습니다.");
 				}
 				break;
 
@@ -166,7 +162,10 @@ public class train_실습4_4객체선형큐_배열 {
 				break;
 
 			case 4: // 덤프
-				oq.dump();
+	
+				break;
+			case 5: //clear
+		
 				break;
 			default:
 				break;

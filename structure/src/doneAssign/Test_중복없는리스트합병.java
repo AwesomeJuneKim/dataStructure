@@ -83,8 +83,8 @@ public class Test_중복없는리스트합병 {
 			String s2 = new String(bytes2);
 			System.out.println("입력 스트링: s1 = " + s1);
 			System.out.println("입력 스트링: s2 = " + s2);
-			String[] sarray1 = s1.split("[,\\s]+\r\n");// 자바 regex \n으로 검색
-			String[] sarray2 = s2.split("[,\\s]+\r\n");// file에서 enter키는 \r\n으로 해야 분리됨
+			String[] sarray1 = s1.split("[,\\s]");// 자바 regex \n으로 검색
+			String[] sarray2 = s2.split("[,\\s]");// file에서 enter키는 \r\n으로 해야 분리됨
 			showData("스트링 배열 sarray1", sarray1);
 			showData("스트링 배열 sarray2", sarray2);
 
@@ -116,7 +116,7 @@ public class Test_중복없는리스트합병 {
 			list1 = removeDuplicate(list1);
 			list2 = removeDuplicate(list2);
 			showList("중복 제거후 리스트1: ", list1);
-			showList("중복 제거후 리스트1: ", list1);
+			showList("중복 제거후 리스트2: ", list2);
 
 			List<String> list3 = new ArrayList<>();
 
