@@ -67,6 +67,7 @@ public class Test_중복없는리스트합병 {
 		for(String item:list2) {
 			list3.add(item);
 		}
+		Collections.sort(list3);
 		return list3;
 
 	}
