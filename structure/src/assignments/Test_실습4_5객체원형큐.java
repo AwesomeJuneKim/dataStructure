@@ -59,6 +59,9 @@ class CircularQueue {
 
 	}
 	void push(Point5 it) throws OverflowQueueException{
+		if(isEmpty()) {
+			throw new
+		}
 	
 
 	}
