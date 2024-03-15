@@ -65,7 +65,7 @@ class IntQueue3 {
 		
 			
 			//if(rear==capacity)
-			//	rear=0;
+//				rear=0;
 			return x;
 
 	}
