@@ -57,18 +57,14 @@ class IntQueue3 {
 
 //--- 큐에서 데이터를 디큐 ---//
 	public int deque() throws EmptyIntQueueException {
-		if (isEmpty())
-			throw new EmptyIntQueueException("배열이 비어있습니다.");
-		int x=que[front++];
-		if(front==capacity)
-			front=0;
-		
-			
-			//if(rear==capacity)
-//				rear=0;
-			return x;
-
+	    if (isEmpty())
+	        throw new EmptyIntQueueException("배열이 비어있습니다.");
+	    int x = que[front++];
+	    if (front == capacity)
+	        front = 0; // front가 capacity와 같아지면 0으로 초기화
+	    return x;
 	}
+
 
 //--- 큐에서 데이터를 피크(프런트 데이터를 들여다봄) ---//
 	public int peek() throws EmptyIntQueueException {
@@ -108,11 +104,12 @@ class IntQueue3 {
 		}else if(rear<front) {
 			return rear-front+capacity;
 		}else{
-			if(rear==front) {
-			return 0;
-		}else {
-		return capacity;
-		}
+			if((rear+1)%capacity==front) {
+				return capacity;
+			}else {
+				return 0;
+			}
+				
 		}
 	}
 
@@ -124,7 +121,7 @@ class IntQueue3 {
 
 //--- 원형 큐가 가득 찼는가? --- 수정 필요//
 	public boolean isFull() {
-		return (front==rear)&&(size()==capacity);
+		return size()==capacity;
 	}
 
 //--- 큐 안의 모든 데이터를 프런트 → 리어 순으로 출력 ---//

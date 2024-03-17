@@ -55,6 +55,7 @@ class objectQueue2 {
 	private int rear; // 맨 끝 요소 커서
 	//private int num; // 현재 데이터 개수
 	
+//--- 생성자(constructor) ---//
 	public objectQueue2(int maxlen) {
 		front=rear=0;
 		this.capacity=maxlen;
@@ -67,26 +68,49 @@ class objectQueue2 {
 	}
 
 //--- 실행시 예외: 큐가 비어있음 ---//
+	public class EmptyQueueException extends RuntimeException{
+		public EmptyQueueException() {
+			
+		}
+	}
 
 
 //--- 실행시 예외: 큐가 가득 찼음 ---//
+	public class OverflowQueueException extends RuntimeException{
+		public OverflowQueueException() {
+	}
 
-
-//--- 생성자(constructor) ---//
+		
 
 //--- 큐에 데이터를 인큐 ---//
-	public int enque(Point3 x) throws OverflowQueueException {
-		if(isFull());
+	public void enque(Point3 x) throws OverflowQueueException {
+		if(isFull())
+			throw new OverflowQueueException();
+		que[rear++]=x;
+		
+		
 
 	}
 
 //--- 큐에서 데이터를 디큐 ---//
 	public Point3 deque() throws EmptyQueueException {
-
+		if(isEmpty()) {
+			throw new EmptyQueueException();
+		}
+		Point3 x= que[front++];
+		if(front==capacity) {
+			front=0;
+		}
+	
 	}
 
 //--- 큐에서 데이터를 피크(프런트 데이터를 들여다봄) ---//
 	public Point3 peek() throws EmptyQueueException {
+		if(isEmpty()) {
+			throw new EmptyQueueException();
+		return que[front];
+		
+	}
 
 	}
 
@@ -94,7 +118,7 @@ class objectQueue2 {
 
 //--- 큐에서 x를 검색하여 인덱스(찾지 못하면 –1)를 반환 ---//
 	public int indexOf(Point3 x) {
-		for (int i = 0; i < num; i++) {
+		for (int i = 0; i < que.length; i++) {
 			int idx = (i + front) % capacity;
 			if (que[idx].equals(x)) // 검색 성공
 				return idx;
