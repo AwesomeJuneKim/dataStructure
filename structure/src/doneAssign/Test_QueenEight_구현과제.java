@@ -1,10 +1,10 @@
-package assignments;
+package doneAssign;
 
 //해가 256개 확인 필요 23.12.12
 import java.util.ArrayList;
 import java.util.List;
 
-import assignments.Stack4.EmptyGenericStackException;
+import doneAssign.Stack4.EmptyGenericStackException;
 
 //https://www.geeksforgeeks.org/n-queen-problem-backtracking-3/?ref=lbp
 //N Queen problem / backtracking
