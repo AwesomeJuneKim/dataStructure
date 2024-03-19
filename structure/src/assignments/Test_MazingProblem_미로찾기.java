@@ -5,9 +5,9 @@ import java.util.List;
 
 enum Directions2 {N, NE, E, SE, S, SW, W, NW}
 class Items3 {
-	int x;
-	int y;
-	int dir;
+	int x;//현재위치의 x
+	int y;//현재위치의 y
+	int dir;//다음 이동방향 
 	public Items3(int x, int y, int d) {
 		this.x = x; this.y = y; this.dir = d;
 	}
@@ -16,9 +16,9 @@ class Items3 {
 		return "x = " + x + ", y = " + y + ", dir = " + dir;
 	}
 }
-class Offsets3 {
-	int a;
-	int b;
+class Offsets3 {//현재위치에서 다음위치로 이동할때 방향에 대한 정보 
+	int a;//x좌표의 변화량 
+	int b;//y좌표의 변화량
 	public Offsets3(int a, int b) {
 		this.a = a; this.b = b;
 	}
@@ -123,6 +123,8 @@ class Offsets3 {
 		static Offsets3[] moves = new Offsets3[8];//static을 선언하는 이유를 알아야 한다
 
 		public static void path(int[][] maze, int[][] mark, int ix, int iy) {
+			//offset=다음위치의 방향에 대한 정보
+			//Item= 현재위치의 정보 
 
 			mark[1][1] = 1;
 			StackList st = new StackList(50);
