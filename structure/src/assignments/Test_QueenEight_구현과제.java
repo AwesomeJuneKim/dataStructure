@@ -4,6 +4,8 @@ package assignments;
 import java.util.ArrayList;
 import java.util.List;
 
+import assignments.Stack4.EmptyGenericStackException;
+
 //https://www.geeksforgeeks.org/n-queen-problem-backtracking-3/?ref=lbp
 //N Queen problem / backtracking
 //모든 해가 나오는 버젼 만들기 
@@ -95,7 +97,7 @@ class Stack4 {
 		} else {
 			data.add(x);
 			top++;
-		}
+		}return true;
 
 	}
 
@@ -173,26 +175,34 @@ public class Test_QueenEight_구현과제 {
 		Point p = new Point(ix, iy);// 현 위치를 객체로 만들고
 		d[ix][iy] = 1;// 현 위치에 queen을 넣었다는 표시를 하고
 		count++;
-		iy++;
+		ix++;//다음 행으로 이동
 		st.push(p);// 스택에 현 위치 객체를 push
 		while (true) {
-			int nextCol=nextMove(d, ix, iy);
+			int nextCol=nextMove(d, ix, iy);//nextMove(...)를 nextCol에 대입해서 사용할 준비
 			if(nextCol!=-1) {//체스판에 퀸을 놓을 자리가 있으면
-				iy=nextCol;
-				d[ix][iy]=1;
-				count++;
-				st.push(new Point(ix,iy));
-				ix++;
-				iy=0;
+				iy=nextCol;//가능한 자리에 객체를 만들어서 퀸이 들어갈 자리는 만들어 줌
+				st.push(new Point(ix,iy));//퀸이 들어간 자리의 객체를 스택에 푸시해 줌
+				d[ix][iy]=1;//배열에 1을 남김
+				ix++;//다음행으로 넘어감
+				iy=0;//다음행의 첫번째 열에 해당하는 요소에 위치함
+				count++;//퀸의 갯수를 증가시킴
 				
-				if(count==8) {
-					numberSolutions++;
-					p=st.pop();
+				
+				if(count==8) {//한판의 퀸 8개를 다 찾은 경우
+					numberSolutions++;// 솔루션의 갯수를 증가시킴
+					System.out.println("["+numberSolutions+"]");//솔루션을 구별할 수 있는 고유번호 출력
+					showQueens(d);//한판 출력
+					System.out.println();//한칸 띄움
+					try {
+						p=st.pop();
+					} catch (EmptyGenericStackException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					ix=p.getX();
-					iy=p.getY();
-					d[ix][iy]=0;
-					count--;
-					iy++;
+					iy=p.getY()+1;//팝한 후 다음열로 이동
+					d[ix][iy-1]=0;//이전의 열의 내용을 초기화 해줌
+					count--;//아직 답이 안나왔으므로 퀸의 숫자를 줄여 줌
 					continue;
 				}
 				
@@ -201,7 +211,12 @@ public class Test_QueenEight_구현과제 {
 				//팝한 위치를 사용해서 다음 열을 조사하고 더 이상 없으면 종료??
 					break;
 				}else {
-					p=st.pop();
+					try {
+						p=st.pop();
+					} catch (EmptyGenericStackException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					ix=p.getX();
 					iy=p.getY();
 					d[ix][iy]=0;
@@ -217,33 +232,52 @@ public class Test_QueenEight_구현과제 {
 	// 배열 d에서 행 cx, 열 cy에 퀸을 남서, 북동 대각선으로 배치할 수 있는지 조사
 	//퀸을 남동쪽 방향 대각선으로 이동할 수 있는지 확인
 	public static boolean checkDiagSW(int[][] d, int cx, int cy) { // x++, y-- or x--, y++ where 0<= x,y <= 7
-		while(cx >= 0 && cy <= 7) {
-			if(d[cx][cy]==1) {
+		int x=cx, y=cy;
+		while(x <d.length && y >= 0) {
+			if(d[x][y]==1) {
 		return false;
 			}
-			cx++;
-			cy++;
+			x++;
+			y--;
+		}
+		x=cx; 
+		y=cy;
+		while(x>=0 && y<d.length) {
+			if(d[x][y]==1) {
+				return false;
+			}
+			x--;
+			y++;
 		}
 		return true;
-
 	}
 
 	// 배열 d에서 행 cx, 열 cy에 퀸을 남동, 북서 대각선으로 배치할 수 있는지 조사
 	//+ 퀸을 남서쪽
 	public static boolean checkDiagSE(int[][] d, int cx, int cy) {// x++, y++ or x--, y--
-		while(cy >= 0 && cx <= 7) {
+		int x=cx, y=cy;
+		while(x >= 0 && y >=0) {
+			if(d[x][y]==1) {
+				return false;
+			}
+			x--;
+			y--;
+		}
+		x=cx; 
+		y=cy;
+		while(cx < d.length && cy < d.length) {
 			if(d[cx][cy]==1) {
 				return false;
 			}
 			cx++;
-			cy--;
+			cy++;
 		}
 	return true;
 
 	}
 
 	public static boolean checkRow(int[][] d, int x, int y) {
-		for(int i=0; i<d[x].length; i++) {
+		for(int i=0; i<8; i++) {
 			if(d[x][i]==1) {
 				return false;
 			}
@@ -252,7 +286,7 @@ public class Test_QueenEight_구현과제 {
 		
 	}
 	public static boolean checkCol(int[][] d, int x, int y) {
-		for(int i=0; i<d[y].length;i++) {
+		for(int i=0; i<8;i++) {
 			if(d[i][y]==1) {
 				return false;
 			}
@@ -270,25 +304,25 @@ public class Test_QueenEight_구현과제 {
 
 	// 배열 d에서 현재 위치(row,col)에 대하여 다음에 이동할 위치 nextCol을 반환, 이동이 가능하지 않으면 -1를 리턴
 	public static int nextMove(int[][] d, int row, int col) {// 현재 row, col에 대하여 이동할 col을 return
-		for(int i=0;i<d[col].length;i++) {
+		for(int i=col;i<8;i++) {
 			if(checkMove(d,row,i)==true)
-				return i;
+				return i;  
 		}
 		return -1;
 
 	}
 
 	static void showQueens(int[][] data) {// 배열 출력
-		for(int i=0;i<data[i].length;i++) {
-			for(int j=0;j<data[j].length;j++) {
-				System.out.print(j+", ");
+		for(int [] i: data) {
+			for(int j:i) {
+				System.out.print(j+" ");
 			}
 			System.out.println();
 		}
 
-	}
+	}                                 
 
-	public static void main(String[] args) {
+	public static void main(String[] args) {// 체스한판은 원래 다 0으로 구성되어 있음
 		int row = 8, col = 8;
 		int[][] data = new int[8][8];
 		for (int i = 0; i < data.length; i++)
