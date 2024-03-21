@@ -103,12 +103,21 @@ class Stack4 {
 
 	// --- 스택에서 데이터를 팝(정상에 있는 데이터를 꺼냄) ---//
 	public Point pop() throws EmptyGenericStackException {
+		if(isEmpty()) {
+			throw new EmptyGenericStackException("스택이 비었습니다.");
+		}else {
+			return data.remove(top);
+		}
 
 	}
 
 	// --- 스택에서 데이터를 피크(peek, 정상에 있는 데이터를 들여다봄) ---//
 	public Point peek() throws EmptyGenericStackException {
-
+		if(isEmpty()) {
+			throw new EmptyGenericStackException("스택이 비었습니다.");
+		}else {
+			return data.get(top);
+		}
 	}
 
 	// --- 스택을 비움 ---//
@@ -156,7 +165,7 @@ class Stack4 {
 	}
 }
 
-public class Test_QueenEight_구현과제 {
+public class Test_QueenEight_chess {
 	public static void EightQueen(int[][] d) {
 		int count = 0;// 퀸 배치 갯수
 		int numberSolutions = 0;
@@ -171,23 +180,71 @@ public class Test_QueenEight_구현과제 {
 
 	}
 		public static boolean checkRow(int[][] d, int crow) { //배열 d에서 행 crow에 퀸을 배치할 수 있는지 조사
-	
+			for(int i=0; i<8; i++) {
+				if(d[crow][i]==1)
+					return false;
+			}
+			return true;
 		}
 
 		public static boolean checkCol(int[][] d, int ccol) {//배열 d에서 열 ccol에 퀸을 배치할 수 있는지 조사
-
+			for(int i=0; i<8; i++) {
+				if(d[i][ccol]==1)
+					return false;
+			}
+			return true;
 		}
 		//배열 d에서 행 cx, 열 cy에 퀸을 남서, 북동 대각선으로 배치할 수 있는지 조사
 		public static boolean checkDiagSW(int[][] d, int cx, int cy) { // x++, y-- or x--, y++ where 0<= x,y <= 7
-	
+			int x=cx, y=cy;
+			while(x>=0 && y<d.length) {
+				if(d[x][y]==1) {
+					return false;
+				}
+				x--;
+				y++;
+			}
+			x=cx;
+			y=cy;
+			while(x<d.length && y>=0) {
+				if(d[x][y]==1){
+					return false;
+				}
+				x++;
+				y--;
+			}
+			return true;
+				
 		}
+		
 
 		//배열 d에서 행 cx, 열 cy에 퀸을 남동, 북서 대각선으로 배치할 수 있는지 조사
 		public static boolean checkDiagSE(int[][] d, int cx, int cy) {// x++, y++ or x--, y--
-
+			int x=cx;
+			int y=cy;
+			while(x>=0 &&y>=0) {
+				if(d[x][y]==1) {
+					return false;
+				}
+				x--;
+				y--;
+			}
+			while(x<=d.length && y<=d.length) {
+				if(d[x][y]==1) {
+					return false;
+				}
+				x++;
+				y++;
+			}
+			return true;
 		}
+
 		//배열 d에서 (x,y)에 퀸을 배치할 수 있는지  조사
 		public static boolean checkMove(int[][] d, int x, int y) {// (x,y)로 이동 가능한지를 check
+			if(checkDiagSE(d,x,y) & checkDiagSW(d,x,y)& checkCol(d,x,y)& checkRow(d,x,y) ==true)
+				return true;
+			return false;
+		}
 	
 		}
 		//배열 d에서 현재 위치(row,col)에 대하여 다음에 이동할 위치 nextCol을 반환, 이동이 가능하지 않으면 -1를 리턴

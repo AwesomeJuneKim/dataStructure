@@ -266,11 +266,11 @@ public class Test_QueenEight_구현과제 {
 		x=cx; 
 		y=cy;
 		while(cx < d.length && cy < d.length) {
-			if(d[cx][cy]==1) {
+			if(d[x][y]==1) {
 				return false;
 			}
-			cx++;
-			cy++;
+			x++;
+			y++;
 		}
 	return true;
 

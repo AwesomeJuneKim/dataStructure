@@ -126,41 +126,54 @@ class Offsets3 {//현재위치에서 다음위치로 이동할때 방향에 대�
 			//offset=다음위치의 방향에 대한 정보
 			//Item= 현재위치의 정보 
 
-			mark[1][1] = 1;
-			StackList st = new StackList(50);
-			Items3 temp = new Items3(0, 0, 0);//N :: 0
-			temp.x = 1;
-			temp.y = 1;
-			temp.dir = 2;//E:: 2
+			mark[1][1] = 1;//미로의 출발지점을 표시 함
+			StackList st = new StackList(50);//현재위치를 저장할 스택을 생성
+			Items3 temp = new Items3(0, 0, 0);//N :: 0 현재위치를 temp에 저장
+			temp.x = 1;//x좌표가 1
+			temp.y = 1;//y좌표가 1
+			temp.dir = 2;//E:: 2 북쪽, 북서쪽으로 갈 수 없으므로 동쪽인 2로 설정 함
 			mark[temp.x][temp.y] = 2;//미로 찾기 궤적은 2로 표시
-			st.push(temp);
-
-			while (!st.isEmpty()) // stack not empty
-			{
-				Items tmp = st.pop(); // unstack
+			st.push(temp);//현재 위치를 스택에 저장
+			
+			boolean flag=false;
+			while (!st.isEmpty()) // stack not empty 스택이 비어있지 않음->좌표를 더 넣을 수 있음->미로찾기를 계속할 수 있음
+			{//현재 위치에서 다른위치로 움직여야 함
+				Items3 tmp = st.pop(); // unstack 직전의 위치를 없어줌
 				int i = tmp.x;
 				int j = tmp.y;
 				int d = tmp.dir;
-				mark[i][j] = 1;//backtracking 궤적은 1로 표시
-				while (d < 8) // moves forward
-				{
-
-					if ((g == ix) && (h == iy)) { // reached exit
-													// output path
-
+				mark[i][j] = 1;//backtracking 궤적은 1로 표시//이미 지나온 곳을 1로 표시함
+				while (d < 8) {// 모든 방향으로 움직임을 시도 함
+					int g=i+moves[d].a;//1~8의 방향으로 움직일때의 x변화량인 a를 원래의 i에 더해서 새로운 자리를 지정한다.
+					int h=j+moves[d].b;
+					
+					if ((g== ix) && (h == iy)) { // 출구에 도착한 경우
+						// output path
+						mark[i][j]=2;
+						mark[g][h]=2;//미로찾기 궤적
+						flag=true;
+						break;
 					}
-					if ((maze[g][h] == 0) && (mark[g][h] == 0)) { // new position
-
-
-					} else
+					if((maze[g][h]==0) && (mark[g][h]==0)){//새로운 위치인 경우
+						Items3 next= new Items3(i,j,d+1);//현재위치정보를 객체로 만듦
+						mark[i][j]=2;//미로찾기 궤적이므로 2를 표시한다.
+						st.push(next);//만든 객체를 스택에 저장 함
+						i=g;//i에 g를 다시 대입해서 while루프를 반복하게 함
+						j=h;
+						d=0;//다른방향에서 탐색시작
+					}else {
+						d++; 
+					} 
 
 				}
+				if(flag)
+					break;
 			}
 			System.out.println("no path in maze ");
 		}
 		static void showMatrix(int[][]d, int row, int col) {
-			for (int i = 0; i <= row; i++) {
-				for (int j = 0; j <= col; j++) {
+			for (int i = 0; i < row; i++) {
+				for (int j = 0; j < col; j++) {
 					System.out.print(d[i][j] + " ");
 
 				}
@@ -185,7 +198,7 @@ class Offsets3 {//현재위치에서 다음위치로 이동할때 방향에 대�
 					{ 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0 },
 					{ 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0 }};
 			for (int ia = 0; ia < 8; ia++)
-				moves[ia] = new Offsets(0, 0);//배열에 offsets 객체를 치환해야 한다.
+				moves[ia] = new Offsets3(0, 0);//배열에 offsets 객체를 치환해야 한다.
 			moves[0].a = -1;	moves[0].b = 0;
 			moves[1].a = -1;	moves[1].b = 1;
 			moves[2].a = 0;		moves[2].b = 1;
@@ -199,6 +212,12 @@ class Offsets3 {//현재위치에서 다음위치로 이동할때 방향에 대�
 			//d = d + 1;//java는 지원안됨
 			for (int i = 0; i < 14; i++) {
 				for (int j = 0; j < 17; j++) {
+				if(i==0 || j==0||i==13||j==16) {
+					maze[i][j]=1;
+				}else {
+					maze[i][j]=input[i-1][j-1];
+				}
+							
 
 					// input[][]을 maze[][]로 변환
 				}
@@ -211,7 +230,7 @@ class Offsets3 {//현재위치에서 다음위치로 이동할때 방향에 대�
 
 			path(maze, mark, 12, 15);
 			System.out.println("mark::");
-			showMatrix(mark, 12, 15);
+			showMatrix(mark, 13, 16);
 		}
 	}
 
