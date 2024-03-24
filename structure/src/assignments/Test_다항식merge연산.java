@@ -6,7 +6,16 @@ class Polynomial implements Comparable<Polynomial>{
 	@Override
 	public int compareTo(Polynomial o) {
 		// TODO Auto-generated method stub
+		if(this.coef>o.coef)
+			return 1;
+		else if (this.coef<o.coef)
+			return -1;
 		return 0;
+	}
+	public Polynomial(double d, int i) {
+		// TODO Auto-generated constructor stub
+		this.coef=d;
+		this.exp=i;
 	}
 
 
@@ -64,5 +73,26 @@ public class Test_다항식merge연산 {
 		ShowPolynomial(y);
 		int result = EvaluatePolynomial(z, 10);//다항식 값 계산 함수 z(10) 값 계산한다 
 		System.out.println(" result = " + result );
+	}
+
+	static int EvaluatePolynomial(Polynomial[] z, int i) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	static void MultiplyPolynomial(Polynomial[] x, Polynomial[] y, Polynomial[] z) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	static void AddPolynomial(Polynomial[] x, Polynomial[] y, Polynomial[] z) {
+		if(y[i]==z[i])
+			x[]
+		
+	}
+
+	static void ShowPolynomial(Polynomial[] x) {
+		// TODO Auto-generated method stub
+		
 	}
 }

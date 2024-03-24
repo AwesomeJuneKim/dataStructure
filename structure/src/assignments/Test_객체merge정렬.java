@@ -15,7 +15,12 @@ class PhyscData implements Comparable<PhyscData>{
 		}else if(this.height>o.height){
 			return 1;
 		}else {
-			return -1;
+			if(this.vision==o.vision)
+				return 0;
+			else if(this.vision>o.vision)
+				return 1;
+			else
+				return -1;
 		}
 	}
 	public PhyscData(String name, int height, double vision) {
@@ -31,17 +36,30 @@ public class Test_객체merge정렬 {
 	// --- 배열 요소 a[idx1]와 a[idx2]의 값을 교환 ---//
 	static void merge(PhyscData[] a, int lefta, int righta, int leftb, int rightb ) {
 		
-		PhyscData[]test=new PhyscData[30];//새로운 배열을 만든다.
+		PhyscData[]test=new PhyscData[30];
+		//정렬한 배열을 저장할 새로운 배열을 생성 한다.
 		int tx=0; //test배열의 인덱스를 나타냄
-		while(lefta<righta && leftb<rightb) {
+		while(lefta<=righta && leftb<=rightb) {
 			if(a[lefta].compareTo(a[leftb])<0)
 				test[tx++]=a[lefta++];
+			//lefta<leftb이면 test[tx]에 a[lefta]를 대입하고 1씩 증가시킨다.
 			else if(a[lefta].compareTo(a[leftb])>0)
 				test[tx++]=a[leftb++];
 			else
 				test[tx++]=a[lefta++];
 				test[tx++]=a[leftb++];
 		}
+		while(lefta>righta && leftb<=rightb) {
+			test[tx++]=a[leftb++];//제일 작은 수는 leftb가 되므로 
+		}while(lefta<=righta && leftb>rightb) {
+			test[tx++]=a[lefta++];
+		}
+//		!!!!!!!!!!!왜 a배열에 대입해서 출력해야 하는지 잘 모르겠음!!!!!!!!!!!!!!
+		System.out.println();
+		for(int i=0; i<a.length;i++) {
+			System.out.print(a[i]+" ");
+		}
+		System.out.println();
 	}
 
 	// --- 퀵 정렬(비재귀 버전)---//
