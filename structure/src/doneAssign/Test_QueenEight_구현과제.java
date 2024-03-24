@@ -83,7 +83,7 @@ class Stack4 {
 		this.capacity=capacity;
 		top=0;
 		try {
-			data= new ArrayList<>();
+			data= new ArrayList<>(capacity);
 		}catch(OutOfMemoryError e){
 			capacity=0;
 		}
@@ -265,7 +265,7 @@ public class Test_QueenEight_구현과제 {
 		}
 		x=cx; 
 		y=cy;
-		while(cx < d.length && cy < d.length) {
+		while(x < d.length && y < d.length) {
 			if(d[x][y]==1) {
 				return false;
 			}

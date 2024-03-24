@@ -4,6 +4,8 @@ package assignments;
 import java.util.ArrayList;
 import java.util.List;
 
+import assignments.Stack4.EmptyGenericStackException;
+
 //https://www.geeksforgeeks.org/n-queen-problem-backtracking-3/?ref=lbp
 //N Queen problem / backtracking
 //모든 해가 나오는 버젼 만들기 
@@ -116,7 +118,8 @@ class Stack4 {
 		if(isEmpty()) {
 			throw new EmptyGenericStackException("스택이 비었습니다.");
 		}else {
-			return data.get(top);
+			top--;
+			return data.remove(top);
 		}
 	}
 
@@ -168,15 +171,64 @@ class Stack4 {
 public class Test_QueenEight_chess {
 	public static void EightQueen(int[][] d) {
 		int count = 0;// 퀸 배치 갯수
-		int numberSolutions = 0;
+		int numberSolutions = 0;//8개의 퀸이 배열되었을때 정답 수
 		int ix = 0, iy = 0;// 행 ix, 열 iy
-		Stack4 st = new Stack4(100); // 100개를 저장할 수 있는 스택을 만들고
-		Point p = new Point(ix, iy);// 현 위치를 객체로 만들고
+		Stack4 st = new Stack4(100); // 100개를 저장할 수 있는 스택->스택에는 퀸의 위치가 저장된다.->8개가 저장되면 numberSolution이 증가하고 택은 비워짐 
+		Point p = new Point(ix, iy);// 퀸의 현 위치를 객체로 만들고
 		d[ix][iy] = 1;// 현 위치에 queen을 넣었다는 표시를 하고
 		count++;
-		iy++;
+		iy++;//다음열로 넘어감 
 		st.push(p);// 스택에 현 위치 객체를 push
 		while (true) {
+			//nextMove가 -1이라면 현재위치를 팝하고 다음 행으로 넘어가서 처음부터 찾음
+			int nextCol=nextMove(d,ix,iy);
+			if(nextCol!=-1) {//체스판에 퀸을 놓을 자리가 있다면
+				iy=nextCol;//iy는 현재행에서 퀸을 놓을 수 있는 열의 위치이다.
+				st.push(new Point(ix,iy));//찾은 위치에 좌표객체를 생성하고 스택에 넣어준다.
+				d[ix][iy]=1;//배열의 해당위치에 1을 표시해준다.
+				ix++;//다음행으로 이동 
+				iy=0;//0번째 요소로 이동 
+				count++;//퀸을 찾았다고 알림
+				
+				if(count==8) {
+					//count가 8개가 되면 넘버솔루션을 증가시키고 한판을 출력 함
+					numberSolutions++;
+					System.out.println("["+numberSolutions+"]");
+					showQueens(d);
+					System.out.println();
+					
+					//다 채웠으니 스택을 비워준다.
+					try {
+						p=st.pop();
+					} catch (EmptyGenericStackException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}//스택에서 가장최근에 저장 된 퀸의 위치를 꺼낸다.
+					ix=p.getX();//ix에 이전의 행을 저장 
+					iy=p.getY();//iy에 이전을 열을 저장 
+					d[ix][iy]=0;//이전의 행과열에 0을 대입해서 초기화 시킴 
+					count--;//퀸을 찾은 갯수를 줄인다.
+					continue;//이전의 if문을 반복 함 
+				}
+			}else {
+				//스택이 다 비워졌으면 솔루션을 다 찾은 것
+				if(st.isEmpty())
+					break;
+				else {
+					try {
+						p=st.pop();
+					} catch (EmptyGenericStackException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					ix=p.getX();
+					iy=p.getY();
+					d[ix][iy]=0;
+					count--;
+					iy++;
+				}
+			}
+		}
 
 	}
 		public static boolean checkRow(int[][] d, int crow) { //배열 d에서 행 crow에 퀸을 배치할 수 있는지 조사
@@ -229,7 +281,9 @@ public class Test_QueenEight_chess {
 				x--;
 				y--;
 			}
-			while(x<=d.length && y<=d.length) {
+			x=cx;
+			y=cy;
+			while(x<d.length && y<d.length) {
 				if(d[x][y]==1) {
 					return false;
 				}
@@ -241,19 +295,25 @@ public class Test_QueenEight_chess {
 
 		//배열 d에서 (x,y)에 퀸을 배치할 수 있는지  조사
 		public static boolean checkMove(int[][] d, int x, int y) {// (x,y)로 이동 가능한지를 check
-			if(checkDiagSE(d,x,y) & checkDiagSW(d,x,y)& checkCol(d,x,y)& checkRow(d,x,y) ==true)
+			if(checkDiagSE(d,x,y) & checkDiagSW(d,x,y)& checkCol(d,y)& checkRow(d,x) ==true)
 				return true;
 			return false;
-		}
 	
 		}
 		//배열 d에서 현재 위치(row,col)에 대하여 다음에 이동할 위치 nextCol을 반환, 이동이 가능하지 않으면 -1를 리턴
 		public static int nextMove(int[][] d, int row, int col) {// 현재 row, col에 대하여 이동할 col을 return
-
+			for(int i=0; i<8;i++) {
+				if(checkMove(d,row,i)==true)
+					return i;
+			}
+				return -1;
 		}
 	
 	static void showQueens(int[][] data) {// 배열 출력
-
+		for(int i=0; i<data.length;i++)
+			for(int j=0; j<data[0].length;j++)
+				System.out.println(j+" ");
+		System.out.println();
 	}
 
 	public static void main(String[] args) {
