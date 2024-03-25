@@ -52,21 +52,37 @@ class CircularQueue {
 	int num;
 	static boolean isEmptyTag;
 	//--- 실행시 예외: 큐가 비어있음 ---//
+		public class EmptyQueueException extends RuntimeException {
+			public EmptyQueueException(String message) {
+				super(message);
+			}
+		}
 
-	//--- 실행시 예외: 큐가 가득 찼음 ---//
-
+	//--- 실행시 예외: 스택이 가득 참 ---//
+		public class OverflowQueueException extends RuntimeException {
+			public OverflowQueueException(String message) {
+				super(message);
+			}
+		}
 	public CircularQueue(int count) {
 
 	}
 	void push(Point5 it) throws OverflowQueueException{
-		if(isEmpty()) {
-			throw new
+		if(isFull()) {
+			throw new OverflowQueueException("배열이 가득찼습니다.");
+		}else {
+			
 		}
 	
 
 	}
 
 	Point5 pop() throws EmptyQueueException{
+		if(isEmpty()) {
+			throw new EmptyQueueException("배열이 비었습니다.");
+		}else {
+			
+		}
 
 
 	}
