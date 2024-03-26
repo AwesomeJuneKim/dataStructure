@@ -1,16 +1,18 @@
 package assignments;
 
+import java.util.Arrays;
+
 class Polynomial implements Comparable<Polynomial>{
     double coef;           // 계수
     int    exp;            // 지수
 	@Override
 	public int compareTo(Polynomial o) {
 		// TODO Auto-generated method stub
-		if(this.coef>o.coef)
-			return 1;
-		else if (this.coef<o.coef)
-			return -1;
-		return 0;
+		return exp-o.exp;
+	}
+	@Override
+	public String toString() {
+		return String.format("%.1f", coef) + "x**" + exp + " ";
 	}
 	public Polynomial(double d, int i) {
 		// TODO Auto-generated constructor stub
@@ -24,7 +26,7 @@ public class Test_다항식merge연산 {
 
 	static void merge(Polynomial[] a, int lefta, int righta, int leftb, int rightb ) {
 		//배열을 반으로 나누었을때 왼쪽배열의 양끝을 lefta, leftb라고 하고 오른쪽 양끝을 righta, rightb라고 한다.
-		Polynomial[] temp=new Polynomial[30];
+		Polynomial[] temp=new Polynomial[100];
 		int ix=0;//임시배열에 새로운 요소를 삽입할 때 사용하는 인덱스
 		int p=lefta, q=leftb;
 		while(p<righta && q<rightb) {
@@ -38,11 +40,11 @@ public class Test_다항식merge연산 {
 		while(p>righta && q<=rightb) {
 			temp[ix++]=a[q++];
 		}
-		while(p<=rightb && q>rightb) {
+		while(p<=righta && q>rightb) {
 			temp[ix++]=a[p++];
 		}
 		for(int j=0; j<ix;j++) {
-			System.out.print(a[lefta+j]+" ");//lefta+j 왜죠??????????
+			a[lefta+j]=temp[j];
 		}
 
 	}
@@ -79,18 +81,19 @@ public class Test_다항식merge연산 {
 		int nx = x.length;
 
 
-		ShowPolynomial(x);
-		ShowPolynomial(y);
+		ShowPolynomial("다항식x=",x);
+		
+		ShowPolynomial("다항식y=",y);
 		MergeSort(x, 0, x.length - 1); // 배열 x를 퀵정렬
 		MergeSort(y, 0, y.length - 1); // 배열 x를 퀵정렬
-		ShowPolynomial(x);
-		ShowPolynomial(y);
-		Polynomial[] z = new Polynomial[20];
+		ShowPolynomial("정렬 후 다항식x=",x);
+		ShowPolynomial("정렬 후 다항식y=",y);
+		Polynomial[] z = new Polynomial[49];
 		AddPolynomial(x,y,z);//다항식 덧셈 z = x + y
-		ShowPolynomial(z);
-		ShowPolynomial(y);
+		ShowPolynomial("덧셈 후 다항식z=",z);
+//		ShowPolynomial("덧셈 후 다항식y=",y);
 		MultiplyPolynomial(x,y,z);//다항식 곱셈 z = x * y
-		ShowPolynomial(y);
+		ShowPolynomial("곱셈 후 다항식y=",z);
 		int result = EvaluatePolynomial(z, 10);//다항식 값 계산 함수 z(10) 값 계산한다 
 		System.out.println(" result = " + result );
 	}
@@ -111,14 +114,27 @@ public class Test_다항식merge연산 {
 			}
 		}
 		//동류항 더하기 
-		for(int i=0;i<z.length;i++) {
-			for(int j=1;j<z.length;j++) {
-				if(z[i].exp==z[j].exp) {
-					z[i].coef+=z[j].coef;
-					z[j].coef=0;
-				}
+		Arrays.sort(z,0,k, Polynomial::compareTo);//polynominal의 compareTo로 정렬한다.
+		int t=0;
+		for(int i=0;i<k;i++) {
+			int count=1; //동류항의 갯수를 저장
+			while(i+1<=k &&z[i].exp==z[i+1].exp) {//동류항이 있는동안에만
+				z[i].coef +=z[++i].coef;
+//				System.out.println("i:"+i+" k:"+k);
+				count++;
 			}
+			//위의 동류항 계산을 저장해 준다.
+			z[t++]=new Polynomial(z[i].coef,z[i].exp);
+			i+=count;//동류항 수만큼을 더해주고 다음 동류항을 찾아야 함
 		}
+//		for(int i=0;i<z.length;i++) {
+//			for(int j=1;j<z.length;j++) {
+//				if(z[i].exp==z[j].exp) {
+//					z[i].coef+=z[j].coef;
+//					z[j].coef=0;
+//				}
+//			}
+//		}
 			
 	}
 
@@ -148,9 +164,12 @@ public class Test_다항식merge연산 {
 		}
 	}
 
-	static void ShowPolynomial(Polynomial[] x) {
+	static void ShowPolynomial(String str,Polynomial[] x) {
+		System.out.println(str);
 		for(int i=0; i<x.length;i++) {
-			System.out.print(x[i].coef+"X^"+x[i].exp+" + ");
+			if(x[i]!=null) {
+			System.out.print(x[i]+"+");
+			}
 		}
 		System.out.println();
 		

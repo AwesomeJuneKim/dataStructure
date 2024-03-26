@@ -172,8 +172,8 @@ class Offsets3 {//현재위치에서 다음위치로 이동할때 방향에 대�
 			System.out.println("no path in maze ");
 		}
 		static void showMatrix(int[][]d, int row, int col) {
-			for (int i = 0; i < row; i++) {
-				for (int j = 0; j < col; j++) {
+			for (int i = 0; i <= row; i++) {//i<row를 i<=row로 수정함(마지막열을 출력하지 않아서 테두리가 짤림)
+				for (int j = 0; j <= col; j++) {
 					System.out.print(d[i][j] + " ");
 
 				}

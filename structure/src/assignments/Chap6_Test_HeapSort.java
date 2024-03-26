@@ -53,12 +53,13 @@ class Heap implements MaxHeap {
 		n--;//마지막 수를 빼낸다.
 		
 		int i=1;
-			for(int j=2; j<=n;j*=2) {
+			for(int j=2; j<=n;) {
 				if(j<n) 
 					if(heap[j]<heap[j+1]) j++;
 				if(k>=heap[j]) break;
 				heap[i]=heap[j];
 				i=j;
+				j=j*2;
 				
 				
 			}
@@ -105,7 +106,8 @@ public class Chap6_Test_HeapSort {
 				heap.display();
 				break;
 			case 3://정렬 for루프로 delete를 계속 함
-				for(int i=1;i<=heap.n;i++) {
+				for(int i=1;i<=count;i++) {
+					//heap.n대신 count을 넣어서 오류 수정(heap.n으로 입력하면 deletemax에 의해서 마지막데이터가 잘림)
 					sorted[i-1]=heap.DeleteMax();
 				}
 				System.out.println("정렬된 데이터 :");
