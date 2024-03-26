@@ -38,11 +38,20 @@ class LinkedList1 {
 	public void Add(int element) // 임의 값을 삽입할 때 리스트가 오름차순으로 정렬이 되도록 한다
 	{
 		Node1 newNode = new Node1(element);
-		if(first==null) {//first가 비어있는 경우
+		if(first==null) {//first가 나타낼 node가 없는 경우
 			first=newNode;//새로운 객체를 연결시킴
 			return;
 		}else {//first가 존재하는 경우
-			Node1 p=first, q=null;
+			Node1 p=first, q=null;//first는 큰수에 붙음
+			while(p!=null) {//first가 참조하는 노드가 존재하는 경우
+				if(element>p.data){//p가 가리키는 데이터보다 새로 넣을 데이터가 크면
+					q=p;
+					p=p.link;
+				}else {
+					newNode.link=p;
+					q.link=newNode;
+				}
+			}
 		}
 
 	}
