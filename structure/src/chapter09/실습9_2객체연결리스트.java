@@ -72,9 +72,21 @@ class LinkedList2 {
 	public int Delete(SimpleObject5 element, Comparator<SimpleObject5> cc)
 	//전달된 element를 찾을 때 comparator 객체를 사용한다 
 	{
-		Node2 q, current = first;
-		q = current;
-
+		Node2 q=null;
+		Node2 p = first;
+		while(p!=null) {
+			if(cc.compare(p.data, element)==0) {//두개의 데이터가 같을 때
+				if(q==null) {
+					first=p.link;
+				}else {
+					q.link=p.link;
+				}
+			}else {
+			//두개의 데이터가 같지 않을 때
+				q=p;
+				p=p.link;
+			}
+		}
 		return -1;// 삭제할 대상이 없다.
 	}
 	public void Show() { // 전체 리스트를 순서대로 출력한다.

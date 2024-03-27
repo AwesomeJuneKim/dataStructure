@@ -23,17 +23,22 @@ class LinkedList1 {
 
 	public int Delete(int element) // delete the element
 	{
-		Node1 q; 
+		Node1 q=null; 
 		Node1 current = first;
-		if(current !=null) {
-			q = current;
-			current=current.link;
-		}else {
+		while(current != null) {
+			if(current.data==element) {
+				if(q==null) {//첫번째 값을 삭제할 때
+					first=current.link;//current를 삭제하고 다음값을 연결한다.
+				}else {//첫번째 값이외의 나머지를 삭제할 때
+					q.link=current.link;
+				}
+			
+			}else{
+				q = current;
+				current=current.link;
+			}
 			return -1;// 삭제할 대상이 없다.
-		}
-		
-		q.link=current.link;//이전의 노드를 현재의 노드로 바꾼다.
-	
+			}
 		return 0;
 	}
 
@@ -42,9 +47,9 @@ class LinkedList1 {
 		System.out.println("***리스트출력***");
 		while(p!=null) {
 			System.out.print(p.data+" ");
-			System.out.println();
 			p=p.link;
 		}
+		System.out.println();
 //		if(p==null)
 //			System.out.println("선택한 노드가 없습니다.");
 //		else
@@ -55,27 +60,31 @@ class LinkedList1 {
 	public void Add(int element) // 임의 값을 삽입할 때 리스트가 오름차순으로 정렬이 되도록 한다
 	{
 		Node1 newNode = new Node1(element);
+		Node1 p=first, q=null;//first는 첫번째에 고정 p만 움직인다.
+		
 		if(first==null) {//first가 나타낼 node가 없는 경우
 			first=newNode;//새로운 객체를 연결시킴
 			return;
-		}else {//first가 존재하는 경우
-			Node1 p=first, q=null;//first는 큰수에 붙음
+		}
 			while(p!=null) {//first가 참조하는 노드가 존재하는 경우
 				if(element>p.data){//p가 가리키는 데이터보다 새로 넣을 데이터가 크면
 					q=p;
 					p=p.link;
-				}else if(q==null){//첫번째 노드로 넣는 경우
-					newNode.link=p;
-					p=newNode;
-				
-				}else {//중간에 넣는 경우
-					q.link=newNode;
-					newNode=p;
+				}else {
+					if(q==null){
+						newNode.link=p;
+						first=newNode;
+						return;
+						}else {//중간에 넣는 경우
+							q.link=newNode;
+							newNode=p;
+							return;
 				}
 			}
 		}
-
+			q.link=newNode;
 	}
+	
 
 	public boolean Search(int data) { // 전체 리스트를 순서대로 출력한다.
 		Node1 ptr = first;
