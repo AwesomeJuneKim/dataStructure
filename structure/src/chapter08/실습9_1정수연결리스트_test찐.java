@@ -23,15 +23,32 @@ class LinkedList1 {
 
 	public int Delete(int element) // delete the element
 	{
-		Node1 q, current = first;
-		q = current;
-
-		return -1;// 삭제할 대상이 없다.
+		Node1 q; 
+		Node1 current = first;
+		if(current !=null) {
+			q = current;
+			current=current.link;
+		}else {
+			return -1;// 삭제할 대상이 없다.
+		}
+		
+		q.link=current.link;//이전의 노드를 현재의 노드로 바꾼다.
+	
+		return 0;
 	}
 
 	public void Show() { // 전체 리스트를 순서대로 출력한다.
 		Node1 p = first;
 		System.out.println("***리스트출력***");
+		while(p!=null) {
+			System.out.print(p.data+" ");
+			System.out.println();
+			p=p.link;
+		}
+//		if(p==null)
+//			System.out.println("선택한 노드가 없습니다.");
+//		else
+//			System.out.println("출력된 노드:"+p.data);
 
 	}
 
@@ -47,9 +64,13 @@ class LinkedList1 {
 				if(element>p.data){//p가 가리키는 데이터보다 새로 넣을 데이터가 크면
 					q=p;
 					p=p.link;
-				}else {
+				}else if(q==null){//첫번째 노드로 넣는 경우
 					newNode.link=p;
+					p=newNode;
+				
+				}else {//중간에 넣는 경우
 					q.link=newNode;
+					newNode=p;
 				}
 			}
 		}
