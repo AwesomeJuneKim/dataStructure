@@ -21,32 +21,32 @@ class LinkedList1 {
 		first = null;
 	}
 
-	public int Delete(int element) // delete the element
+	public boolean Delete(int element) // delete the element
 	{
 		Node1 q=null; 
-		Node1 current = first;
-		while(current != null) {
-			if(current.data==element) {
+		Node1 p = first;
+		while(p != null) {
+			if(p.data==element) {
 				if(q==null) {//첫번째 값을 삭제할 때
-					first=current.link;//current를 삭제하고 다음값을 연결한다.
+					first=p.link;//current를 삭제하고 다음값을 연결한다.
 				}else {//첫번째 값이외의 나머지를 삭제할 때
-					q.link=current.link;
+					q.link=p.link;
+					return true;
 				}
 			
 			}else{
-				q = current;
-				current=current.link;
+				q = p;
+				p=p.link;
 			}
-			return -1;// 삭제할 대상이 없다.
-			}
-		return 0;
+		}
+		return false;// 삭제할 대상이 없다.
 	}
-
+	
 	public void Show() { // 전체 리스트를 순서대로 출력한다.
 		Node1 p = first;
 		System.out.println("***리스트출력***");
 		while(p!=null) {
-			System.out.print(p.data+" ");
+			System.out.print(p.data+" > ");
 			p=p.link;
 		}
 		System.out.println();
@@ -67,13 +67,13 @@ class LinkedList1 {
 			return;
 		}
 			while(p!=null) {//first가 참조하는 노드가 존재하는 경우
-				if(element>p.data){//p가 가리키는 데이터보다 새로 넣을 데이터가 크면
+				if(element>p.data){//p가 가리키는 데이터보다 새로 넣을 데이터가 크면 옮겨 감 
 					q=p;
 					p=p.link;
 				}else {
-					if(q==null){
-						newNode.link=p;
+					if(q==null){//데이터를 처음 넣는 경우 
 						first=newNode;
+						newNode.link=p;
 						return;
 						}else {//중간에 넣는 경우
 							q.link=newNode;
@@ -82,12 +82,16 @@ class LinkedList1 {
 				}
 			}
 		}
-			q.link=newNode;
+			q.link=newNode;//마지막에 넣는 경우(p==null)일 때 
 	}
 	
 
 	public boolean Search(int data) { // 전체 리스트를 순서대로 출력한다.
 		Node1 ptr = first;
+		while(ptr!=first) {
+			System.out.print(ptr.data+" > ");
+		}
+		System.out.println();
 
 		return false;
 	}
@@ -151,9 +155,10 @@ public class 실습9_1정수연결리스트_test찐 {
 				l.Show();
 				break;
 			case Delete: 
+				System.out.print("삭제할 데이터: ");
 				data = sc.nextInt();
-				int num = l.Delete(data);
-				System.out.println("삭제된 데이터는 " + num);
+				boolean num = l.Delete(data);
+				System.out.println("데이터 삭제 유무: " + num);
 				break;
 			case Show: 
 				l.Show();
