@@ -92,48 +92,69 @@ class CircularList {
 	 */
 	public int Delete(SimpleObject3 element, Comparator<SimpleObject3> cc) // delete the element
 	{
-		Node3 q = null, p = first;
+		Node3 p = first.link, q = first;
+
+		while (p != first) {
+			if (cc.compare(p.data, element) < 0) {//없으면 계속 검색 
+				q = p;
+				p = p.link;
+			} else {
+				if (cc.compare(p.data, element) == 0) {//찾으면 삭제 
+					q.link = p.link;
+				}
+			}
+			break;
+		}
 
 		return -1;// 삭제할 대상이 없다.
 	}
 
 	public void Show() { // 전체 리스트를 순서대로 출력한다.
-		Node3 p = first.link;
-		SimpleObject3 so;
-
+		Node3 q=first, p = first.link;
+		System.out.print("출력한 데이터: ");
+		while(p!=first) {
+			System.out.println(q.data.toString());
+			p=p.link;
+		}
+		System.out.println();
 	}
 
 	public void Add(SimpleObject3 element, Comparator<SimpleObject3> cc) // 임의 값을 삽입할 때 리스트가 오름차순으로 정렬이 되도록 한다
 	{
 		Node3 newNode = new Node3(element);
 		Node3 p = first.link, q = first;
-		
-			while (p != first) {//p!=null과 같은 의미
-				if (cc.compare(p.data, element) < 0) {// 새데이터가 더 클 때
-					//데이터를 중간에 넣는 경우
-					q=p;
-					p=p.link;
-					return;
-				}else {
-					//새데이터가 더 작을 때
-					q.link=newNode;
-					newNode.link=p;
-					return;
-					
-					
-				}
+
+		while (p != first) {// p!=null과 같은 의미
+			if (cc.compare(p.data, element) < 0) {// 새데이터가 더 클 때
+				q = p;
+				p = p.link;
+				return;
+			} else {
+				// 새데이터가 더 작을 때
+				q.link = newNode;
+				newNode.link = p;
+				return;
+
 			}
 		}
-
+		first.link = newNode;
+		newNode.link = first;
 	}
 
 	public boolean Search(SimpleObject3 element, Comparator<SimpleObject3> cc) { // 전체 리스트를 순서대로 출력한다.
-		Node3 q, current = first.link;
+		Node3 q=first, p = first.link;
+		
+		while(p!=first) {
+			if(cc.compare(p.data, element)==0) {
+				return true;
+			}
+			p=p.link;
+		}
 
 		return false;
 	}
 
-	void Merge(LinkedList1 b) {
+	void Merge(LinkedList2 b) {
 		/*
 		 * 연결리스트 a,b에 대하여 a = a + b merge하는 알고리즘 구현으로 in-place 방식으로 합병/이것은 새로운 노드를 만들지
 		 * 않고 합병하는 알고리즘 구현 난이도 등급: 최상급 회원번호에 대하여 a = (3, 5, 7), b = (2,4,8,9)이면 a =
@@ -142,7 +163,7 @@ class CircularList {
 	}
 }
 
-public class 실습9_4객체원형리스트 {
+public class 실습9_4객체원형리스트_test {
 	enum Menu {
 		Add("삽입"), Delete("삭제"), Show("인쇄"), Search("검색"), Merge("합병"), Exit("종료");
 
