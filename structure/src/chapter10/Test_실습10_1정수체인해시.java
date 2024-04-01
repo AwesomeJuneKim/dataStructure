@@ -39,7 +39,7 @@ class SimpleChainHash {
 		
 		while(p!=null) {
 			if(p.key==key) {
-				return p.key;
+				return 1;
 			}
 			p=p.next;//다음검색으로 넘어 감
 		}
@@ -54,7 +54,7 @@ class SimpleChainHash {
 		
 		while(p!=null) {//p는 인덱스를 이미 알고 있으므로 해당 링크드 리스트를 순회한다.
 			if(p.key==key) {//이미 같은키가 존재하면
-				return 1;//등록할 수 없다
+				return 0;//등록할 수 없다
 				}
 			p=p.next;//아닐경우 마지막노드를 찾는다.
 			}
@@ -62,7 +62,7 @@ class SimpleChainHash {
 			Node temp= new Node(key,table[hash]);
 			table[hash]=temp;
 			
-		return 0;
+		return 1;
 	}
 
 	// --- 키값이 key인 요소를 삭제 ---//
@@ -75,12 +75,12 @@ class SimpleChainHash {
 					table[hash]=p.next;
 				else
 					q.next=p.next;
-				return 0;//삭제 완료
+				return 1;//삭제 완료
 			}
 			q=p;
 			p=p.next;//찾으러 돌아다님
 		}
-		return 1;//삭제 실패
+		return 0;//삭제 실패
 
 	}
 
@@ -88,7 +88,7 @@ class SimpleChainHash {
 	public void dump() {
 		for(int i=0;i<size;i++) {
 			Node p=table[i];
-			System.out.println("["+i+"]");
+			System.out.print("["+i+"] ");
 			while(p!=null) {
 				System.out.print(p.key+" > ");
 				p=p.next;
@@ -154,9 +154,10 @@ public class Test_실습10_1정수체인해시 {
 					input[ix] = (int) (d * 20);
 					System.out.print(" " + input[ix]);
 				}
+				System.out.println();
 				for (int i = 0; i < count; i++) {
 					if ((hash.add(input[i])) == 0)
-						System.out.println("Insert Duplicated data");
+						System.out.println(input[i]+": Insert Duplicated data");
 				}
 				break;
 			case Delete:
@@ -164,7 +165,7 @@ public class Test_실습10_1정수체인해시 {
 				System.out.println("Search Value:: ");
 				val = stdIn.nextInt();
 				result = hash.delete(val);
-				if (result == 1)
+				if (result != 0)
 					System.out.println(" 검색 데이터가 존재한다");
 				else
 					System.out.println(" 검색 데이터가 없음");
