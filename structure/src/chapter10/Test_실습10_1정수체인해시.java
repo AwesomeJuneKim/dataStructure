@@ -8,9 +8,9 @@ class Node {
 	int key; // 키값
 	Node next; // 뒤쪽 포인터(뒤쪽 노드에 대한 참조)
 
-	public Node(int key, Node next) {
+	public Node(int key) {
 		this.key = key;
-		this.next = next;
+		this.next = null;
 	}
 }
 
@@ -28,70 +28,89 @@ class SimpleChainHash {
 		}
 
 	}
+
 	public int hashValue(int key) {
 		return key % size;
 	}
 
 	// --- 키값이 key인 요소를 검색(데이터를 반환) ---//
 	public int search(int key) {
-		int hash=hashValue(key);//key값의 주소를 hash에 참조
-		Node p= table[hash];//key값의 주소를 가진 테이블의 노드를 p로 설정
-		
-		while(p!=null) {
-			if(p.key==key) {
+		int hash = hashValue(key);// key값의 주소를 hash에 참조
+		Node p = table[hash];// key값의 주소를 가진 테이블의 노드를 p로 설정
+
+		while (p != null) {
+			if (p.key == key) {
 				return 1;
 			}
-			p=p.next;//다음검색으로 넘어 감
+			p = p.next;// 다음검색으로 넘어 감
 		}
-		return -1;//검색 실패
+		return -1;// 검색 실패
 
 	}
 
 	// --- 키값이 key인 데이터를 data의 요소로 추가 ---//
 	public int add(int key) {
-		int hash= hashValue(key);//table의 인덱스를 계산
-		Node p=table[hash];
-		
-		while(p!=null) {//p는 인덱스를 이미 알고 있으므로 해당 링크드 리스트를 순회한다.
-			if(p.key==key) {//이미 같은키가 존재하면
-				return 0;//등록할 수 없다
+		int hash = hashValue(key);// table의 인덱스를 계산
+		Node p = table[hash], q = null;
+		Node newNode = new Node(key);
+		if(table[hash]==null) {
+			table[hash]=newNode;
+			return 1;
+		}
+		while (p != null) {// p는 인덱스를 이미 알고 있으므로 해당 링크드 리스트를 순회한다.
+			if (p.key < key) {
+				q = p;
+				p = p.next;
+			} else {
+				if (p.key == key) {// 이미 같은키가 존재하면
+					return 0;// 등록할 수 없다
+				} else {// 중복되는 키가 없는 경우
+					if (q == null) {// 첫번째 데이터인 경우
+						newNode.next = p;
+						table[hash] = newNode;
+						return 1;// 노드추가 함
+					} // 중간에 넣는 경우
+					else {
+						q.next = newNode;
+						newNode.next = p;
+						return 1;
+					}
 				}
-			p=p.next;//아닐경우 마지막노드를 찾는다.
 			}
-			//마지막 노드에 새 노드 생성
-			Node temp= new Node(key,table[hash]);
-			table[hash]=temp;
-			
+
+		}
+		// 마지막 노드에 새 노드 생성(p==null)
+		q.next=newNode;
 		return 1;
 	}
 
 	// --- 키값이 key인 요소를 삭제 ---//
 	public int delete(int key) {
-		int hash=hashValue(key);
-		Node p=table[hash], q=null;
-		while(p!=null) {
-			if(p.key==key) {
-				if(q==null)//첫번째 데이터인 경우
-					table[hash]=p.next;
+		int hash = hashValue(key);
+		Node p = table[hash], q = null;
+		while (p != null) {
+			if (p.key == key) {
+				if (q == null)// 첫번째 데이터인 경우
+					table[hash] = p.next;
 				else
-					q.next=p.next;
-				return 1;//삭제 완료
+					q.next = p.next;
+				return 1;// 삭제 완료
 			}
-			q=p;
-			p=p.next;//찾으러 돌아다님
+			q = p;
+			p = p.next;// 찾으러 돌아다님
 		}
-		return 0;//삭제 실패
+		return 0;// 삭제 실패
 
 	}
 
 	// --- 해시 테이블을 덤프(dump) ---//
 	public void dump() {
-		for(int i=0;i<size;i++) {
-			Node p=table[i];
-			System.out.print("["+i+"] ");
-			while(p!=null) {
-				System.out.print(p.key+" > ");
-				p=p.next;
+		for (int i = 0; i < size; i++) {
+			Node p = table[i];
+			System.out.print("[" + i + "] ");
+			while (p != null) {
+				System.out.print(p.key + " > ");
+				p = p.next;
 			}
 			System.out.println();
 		}
@@ -157,7 +176,7 @@ public class Test_실습10_1정수체인해시 {
 				System.out.println();
 				for (int i = 0; i < count; i++) {
 					if ((hash.add(input[i])) == 0)
-						System.out.println(input[i]+": Insert Duplicated data");
+						System.out.println(input[i] + ": Insert Duplicated data");
 				}
 				break;
 			case Delete:
