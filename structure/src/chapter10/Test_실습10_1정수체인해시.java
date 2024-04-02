@@ -66,8 +66,8 @@ class SimpleChainHash {
 					return 0;// 등록할 수 없다
 				} else {// 중복되는 키가 없는 경우
 					if (q == null) {// 첫번째 데이터인 경우
-						newNode.next = p;
-						table[hash] = newNode;
+						newNode.next = p;//새 노드의 링크를 p에 설정
+						table[hash] = newNode;//해시테이블의 해당인덱스에 새노드 연결
 						return 1;// 노드추가 함
 					} // 중간에 넣는 경우
 					else {
