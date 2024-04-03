@@ -18,7 +18,7 @@ class Sets {
 
     }
 
-    public int SimpleFind(int i)
+    public int SimpleFind(int i)//for루프를 이용해서 만든다 
     // Find the root of the tree containing element i
     {
     }
