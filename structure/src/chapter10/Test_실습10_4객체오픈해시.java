@@ -1,4 +1,4 @@
-package Chap10_Hashing;
+package chapter10;
 
 import java.util.Comparator;
 import java.util.Scanner;
@@ -8,11 +8,24 @@ import java.util.Scanner;
 class SimpleObject2 {
 	static final int NO = 1;
 	static final int NAME = 2;
+	public static final Comparator<? super SimpleObject2> NO_ORDER = null;
 	String sno; // 회원번호
 	String sname; // 이름
+	public void scanData(String string, int no2) {
+		// TODO Auto-generated method stub
+		Scanner sc= new Scanner(System.in);
+		System.out.print(string+" Data:"+no2);
+		if((no2&NO)==NO) {
+			System.out.print("NO:");
+			sc.nextInt();
+		}else {
+			System.out.print("NAME:");
+			sc.next();
+		}
+	}
 
-	
 }
+
 //*
 class OpenHash {
 
@@ -22,11 +35,20 @@ class OpenHash {
 	}; // {데이터 저장, 비어있음, 삭제 완료}
 
 	// --- 버킷 ---//
-	static class Bucket { 
+	static class Bucket {
 		private SimpleObject2 data; // 데이터
 		private Status stat; // 상태
 
-		
+		Bucket() {
+			data = null;
+			stat = Status.EMPTY;
+		}
+
+		public void set(SimpleObject2 data, Status s) {
+			this.data = data;
+			this.stat = s;
+		}
+
 	}
 
 	private int size; // 해시 테이블의 크기
@@ -34,7 +56,9 @@ class OpenHash {
 
 	// --- 생성자(constructor) ---//
 	public OpenHash(int size) {
-		
+		this.size = size;
+		table = new Bucket[size];
+
 	}
 
 	// --- 해시값을 구함 ---//
@@ -49,31 +73,70 @@ class OpenHash {
 
 	// --- 키값 key를 갖는 버킷 검색 ---//
 	private Bucket searchNode(SimpleObject2 key, Comparator<? super SimpleObject2> c) {
-		
+		int idx = hashValue(key);
+		Bucket p = table[idx];
+		for (int i = 0; p.stat != Status.EMPTY && i < size; i++) {
+			if (p.data == key) {
+				return p;
+			} else {
+				idx = rehashValue(idx);
+				p = table[idx];
+			}
+		}
+		return null;
 	}
 
 	// --- 키값이 key인 요소를 검색(데이터를 반환)---//
 	public SimpleObject2 search(SimpleObject2 key, Comparator<? super SimpleObject2> c) {
-		
+		Bucket p = searchNode(key, c);
+		if (p != null) {
+			return p.data;
+		} else
+			return null;
 	}
 
 	// --- 키값이 key인 데이터를 data의 요소로 추가 ---//
 	public int add(SimpleObject2 key, Comparator<? super SimpleObject2> c) {
-		
+		int hash = hashValue(key);
+		Bucket p = table[hash];
+
+		if (searchNode(key, c) != null)
+			return 1;
+		for (int i = 0; i < size; i++) {
+			if (p.stat == Status.EMPTY || p.stat == Status.DELETED) {
+				p.set(key, Status.OCCUPIED);
+				return 0;
+			}
+			hash=rehashValue(hash);
+			p=table[hash];
+		}
+		return 2;
 	}
 
 	// --- 키값이 key인 요소를 삭제 ---//
 	public int remove(SimpleObject2 key, Comparator<? super SimpleObject2> c) {
-		
+		Bucket p=searchNode(key,c);
+		if(p==null)
+			return 1;
+		else
+			p.stat=Status.DELETED;return 0;
 	}
 
 	// --- 해시 테이블을 덤프(dump) ---//
 	public void dump() {
-		
+		for(int i=0; i<size;i++) {
+			System.out.print("["+i+"]");
+			if(table[i].stat==Status.OCCUPIED&&table[i].stat!=null) {
+				System.out.print(table[i].data);
+			}
+			System.out.println();
+		}
+
 	}
 }
+
 //*/
-public class 객체오픈해시 {
+public class Test_실습10_4객체오픈해시 {
 
 	static Scanner stdIn = new Scanner(System.in);
 
@@ -114,7 +177,7 @@ public class 객체오픈해시 {
 
 	public static void main(String[] args) {
 		Menu menu; // 메뉴
-	
+
 		SimpleObject2 temp; // 읽어 들일 데이터
 		int result;
 		OpenHash hash = new OpenHash(13);
